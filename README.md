@@ -13,6 +13,10 @@ rake compile
 rake install
 ```
 
+## Usage
+
+`sample_moments` `sample_mean` `sample_variance` `sample_skewness` `sample_kurtosis` `sample_adev` `sample_median` `sample_percentile` `cov2` `pearson_corr2` `spearman_corr2` `pearson_correlation_significance` `spearman_rank_correlation_significance` `jarque_bera_test` `f_test` `one_sample_variance_test` `wilcoxon_signed_rank_test` `mann_whitney_u_test` `student_test_1` `student_test_2` `unequal_variance_t_test`
+
 ## License
 
 The code for ruby-arglib itself is distributed under the MIT license.
