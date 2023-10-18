@@ -16,12 +16,12 @@ Rake::ExtensionTask.new('alglib') do |ext|
 end
 
 desc 'Download and extract ALGLIB'
-namespace :vendor do
+namespace :ext do
   task :alglib do
     require 'open-uri'
     require 'zip'
     source_url = 'https://www.alglib.net/translator/re/alglib-4.00.0.cpp.gpl.zip'
-    target_dir = './vendor'
+    target_dir = './ext/alglib'
 
     # Download the file to a temporary location
     temp_file = Tempfile.new('alglib')
@@ -33,12 +33,11 @@ namespace :vendor do
     # Extract downloaded file to target directory
     Zip::File.open(temp_file.path) do |zip_file|
       zip_file.each do |entry|
-        path_to_extract = File.join(target_dir, entry.name)
-        if entry.directory?
-          FileUtils.mkdir_p path_to_extract
-        else
+        path_to_extract = File.join(target_dir, File.basename(entry.name))
+        case File.extname(entry.name)
+        when '.cpp', '.h'
           FileUtils.mkdir_p File.dirname(path_to_extract)
-          entry.extract(path_to_extract) unless File.exist?(path_to_extract)
+          entry.extract(path_to_extract) { true }
         end
       end
     end

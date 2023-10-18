@@ -13,3 +13,6 @@
 *.a
 *.lock
 mkmf.log
+
+/ext/alglib/*.cpp
+/ext/alglib/*.h
