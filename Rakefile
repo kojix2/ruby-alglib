@@ -33,6 +33,8 @@ namespace :ext do
     # Extract downloaded file to target directory
     Zip::File.open(temp_file.path) do |zip_file|
       zip_file.each do |entry|
+        # Skip test files
+        next if entry.name.start_with?('alglib-cpp/tests')
         path_to_extract = File.join(target_dir, File.basename(entry.name))
         case File.extname(entry.name)
         when '.cpp', '.h'
