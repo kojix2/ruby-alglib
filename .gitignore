@@ -1,1 +1,7 @@
 vendor/alglib-cpp
+*.lock
+*.o
+*.so
+*.bundle
+*.dll
+tmp
