@@ -1,10 +1,13 @@
 # ruby-alglib
 
-statistics.h of [ALGLIB](https://www.alglib.net/) for Ruby.
+- `statistics.h` of [ALGLIB](https://www.alglib.net/) for Ruby.
+- ALGLIB is a numerical analysis and data processing library. This repository provides bindings primarily for statistics.
 
 ## Installation
 
-```
+From source code:
+
+```sh
 git clone https://github.com/kojix2/ruby-alglib
 cd ruby-alglib
 bundle install
@@ -13,7 +16,7 @@ rake compile
 rake install
 ```
 
-Windows is not supported.
+- Windows is not supported.
 
 ## Usage
 
@@ -21,18 +24,16 @@ Windows is not supported.
 
 ## Development
 
-Not-To-Do list
+Not-To-Do List
 
 - Creating namespaces under Alglib. (e.g. Alglib::Statistics)
 - Trying to implement all functions even if you do not plan to use them.
 - Adding features that will require frequent maintenance.
-- Impose the above policy on forked repositories 
+- Impose the above policy on forked repositories. 
 
 ## License
 
-The code for ruby-arglib itself is distributed under the MIT license.
-Please note that ALGLIB is under the **GPL** license.
-
-- [ALGLIB Free Edition](https://www.alglib.net/) GPL or Personal/Academic license
-
-ALGLIB is also available in a commercial version, but this project has not tested working with the commercial version.
+- ruby-arglib itself is distributed under the **MIT** license.
+- However, [ALGLIB Free Edition](https://www.alglib.net/download.php) is under the **GPL** or Personal/Academic license.
+- Please read [FAQ](https://www.alglib.net/faq.php) carefully before you use ALGLIB to understand what is allowed in the free version.
+- Theoretically, ruby-alglib should work with the commercial version. That is why it is MIT. But we have not verified this.
