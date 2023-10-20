@@ -54,4 +54,30 @@ class AlglibTest < Test::Unit::TestCase
       assert_in_delta r('library(e1071)', "kurtosis(c(#{arr.join(',')}))").to_f, Alglib.sample_kurtosis(arr), 0.001
     end
   end
+
+  def test_sample_adev
+    assert_in_delta r('library("DescTools")', 'MeanAD(c(1, 2))').to_f, Alglib.sample_adev([1, 2]), 0.001
+    assert_in_delta r('library("DescTools")', 'MeanAD(c(1, 2, 3))').to_f, Alglib.sample_adev([1, 2, 3]), 0.001
+    assert_in_delta r('library("DescTools")', 'MeanAD(c(1.1, 2.2, 3.3, 4.4))').to_f, Alglib.sample_adev([1.1, 2.2, 3.3, 4.4]), 0.001
+  end
+
+  def test_sample_adev_random
+    5.times do
+      arr = Array.new(10) { rand(100) / 10.0 }
+      assert_in_delta r('library("DescTools")', "MeanAD(c(#{arr.join(',')}))").to_f, Alglib.sample_adev(arr), 0.001
+    end
+  end
+
+  def test_sample_median
+    assert_equal r('median(c(1, 2))').to_f, Alglib.sample_median([1, 2])
+    assert_equal r('median(c(1, 2, 3))').to_f, Alglib.sample_median([1, 2, 3])
+    assert_equal r('median(c(1.1, 2.2, 3.3, 4.4))').to_f, Alglib.sample_median([1.1, 2.2, 3.3, 4.4])
+  end
+
+  def test_sample_median_random
+    5.times do
+      arr = Array.new(10) { rand(100) / 10.0 }
+      assert_in_delta r("median(c(#{arr.join(',')}))").to_f, Alglib.sample_median(arr), 0.001
+    end
+  end
 end
