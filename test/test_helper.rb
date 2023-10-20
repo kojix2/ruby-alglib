@@ -14,7 +14,9 @@ def r(*code)
     raise "Rscript failed: #{stderr}"
   end
 
-  stdout.sub(/^\[\d+\]\s+/, '')
+  # Rscript returns the result in the last line
+  # Remove the prefix "[1]" and the space
+  stdout.split("\n").last.sub(/^\[\d+\]\s+/, '')
 end
 
 # install packages
