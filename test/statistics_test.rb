@@ -34,7 +34,8 @@ class AlglibTest < Test::Unit::TestCase
   def test_sample_skewness
     assert_in_delta r('library(e1071)', 'skewness(c(1, 2))').to_f, Alglib.sample_skewness([1, 2]), DELTA
     assert_in_delta r('library(e1071)', 'skewness(c(1, 2, 3))').to_f, Alglib.sample_skewness([1, 2, 3]), DELTA
-    assert_in_delta r('library(e1071)', 'skewness(c(1.1, 2.2, 3.3, 4.4))').to_f, Alglib.sample_skewness([1.1, 2.2, 3.3, 4.4]), DELTA
+    assert_in_delta r('library(e1071)', 'skewness(c(1.1, 2.2, 3.3, 4.4))').to_f,
+                    Alglib.sample_skewness([1.1, 2.2, 3.3, 4.4]), DELTA
   end
 
   def test_sample_skewness_random
@@ -47,7 +48,8 @@ class AlglibTest < Test::Unit::TestCase
   def test_sample_kurtosis
     assert_in_delta r('library(e1071)', 'kurtosis(c(1, 2))').to_f, Alglib.sample_kurtosis([1, 2]), DELTA
     assert_in_delta r('library(e1071)', 'kurtosis(c(1, 2, 3))').to_f, Alglib.sample_kurtosis([1, 2, 3]), DELTA
-    assert_in_delta r('library(e1071)', 'kurtosis(c(1.1, 2.2, 3.3, 4.4))').to_f, Alglib.sample_kurtosis([1.1, 2.2, 3.3, 4.4]), DELTA
+    assert_in_delta r('library(e1071)', 'kurtosis(c(1.1, 2.2, 3.3, 4.4))').to_f,
+                    Alglib.sample_kurtosis([1.1, 2.2, 3.3, 4.4]), DELTA
   end
 
   def test_sample_kurtosis_random
@@ -60,7 +62,8 @@ class AlglibTest < Test::Unit::TestCase
   def test_sample_adev
     assert_in_delta r('library("DescTools")', 'MeanAD(c(1, 2))').to_f, Alglib.sample_adev([1, 2]), DELTA
     assert_in_delta r('library("DescTools")', 'MeanAD(c(1, 2, 3))').to_f, Alglib.sample_adev([1, 2, 3]), DELTA
-    assert_in_delta r('library("DescTools")', 'MeanAD(c(1.1, 2.2, 3.3, 4.4))').to_f, Alglib.sample_adev([1.1, 2.2, 3.3, 4.4]), DELTA
+    assert_in_delta r('library("DescTools")', 'MeanAD(c(1.1, 2.2, 3.3, 4.4))').to_f,
+                    Alglib.sample_adev([1.1, 2.2, 3.3, 4.4]), DELTA
   end
 
   def test_sample_adev_random
@@ -86,7 +89,8 @@ class AlglibTest < Test::Unit::TestCase
   def test_sample_percentile
     assert_in_delta r('quantile(c(1, 2), c(0.25))').to_f, Alglib.sample_percentile([1, 2], 0.25), DELTA
     assert_in_delta r('quantile(c(1, 2, 3), c(0.25))').to_f, Alglib.sample_percentile([1, 2, 3], 0.25), DELTA
-    assert_in_delta r('quantile(c(1.1, 2.2, 3.3, 4.4), c(0.25))').to_f, Alglib.sample_percentile([1.1, 2.2, 3.3, 4.4], 0.25), DELTA
+    assert_in_delta r('quantile(c(1.1, 2.2, 3.3, 4.4), c(0.25))').to_f,
+                    Alglib.sample_percentile([1.1, 2.2, 3.3, 4.4], 0.25), DELTA
   end
 
   def test_sample_percentile_random
@@ -97,9 +101,10 @@ class AlglibTest < Test::Unit::TestCase
   end
 
   def test_cov2
-    assert_in_delta r('cov(c(1, 2), c(3, 4))').to_f, Alglib.cov2([1, 2], [3, 4]), DELTA
-    assert_in_delta r('cov(c(1, 2, 3), c(3, 4, 5))').to_f, Alglib.cov2([1, 2, 3], [3, 4, 5]), DELTA
-    assert_in_delta r('cov(c(1.1, 2.2, 3.3, 4.4), c(3.3, 4.4, 5.5, 6.6))').to_f, Alglib.cov2([1.1, 2.2, 3.3, 4.4], [3.3, 4.4, 5.5, 6.6]), DELTA
+    assert_in_delta r('cov(c(1, 2), c(4, 3))').to_f, Alglib.cov2([1, 2], [4, 3]), DELTA
+    assert_in_delta r('cov(c(1, 2, 3), c(3, 5, 4))').to_f, Alglib.cov2([1, 2, 3], [3, 5, 4]), DELTA
+    assert_in_delta r('cov(c(1.1, 2.2, 3.3, 4.4), c(3.3, 4.4, 5.5, 6.6))').to_f,
+                    Alglib.cov2([1.1, 2.2, 3.3, 4.4], [3.3, 4.4, 5.5, 6.6]), DELTA
   end
 
   def test_cov2_random
@@ -107,6 +112,38 @@ class AlglibTest < Test::Unit::TestCase
       arr1 = Array.new(10) { rand(100) / 10.0 }
       arr2 = Array.new(10) { rand(100) / 10.0 }
       assert_in_delta r("cov(c(#{arr1.join(',')}), c(#{arr2.join(',')}))").to_f, Alglib.cov2(arr1, arr2), DELTA
+    end
+  end
+
+  def test_pearson_corr2
+    assert_in_delta r('cor(c(1, 2), c(4, 3))').to_f, Alglib.pearson_corr2([1, 2], [4, 3]), DELTA
+    assert_in_delta r('cor(c(1, 2, 3), c(3, 5, 4))').to_f, Alglib.pearson_corr2([1, 2, 3], [3, 5, 4]), DELTA
+    assert_in_delta r('cor(c(1.1, 2.2, 3.3, 4.4), c(3.3, 4.4, 5.5, 6.6))').to_f,
+                    Alglib.pearson_corr2([1.1, 2.2, 3.3, 4.4], [3.3, 4.4, 5.5, 6.6]), DELTA
+  end
+
+  def test_pearson_corr2_random
+    5.times do
+      arr1 = Array.new(10) { rand(100) / 10.0 }
+      arr2 = Array.new(10) { rand(100) / 10.0 }
+      assert_in_delta r("cor(c(#{arr1.join(',')}), c(#{arr2.join(',')}))").to_f, Alglib.pearson_corr2(arr1, arr2), DELTA
+    end
+  end
+
+  def test_spearman_corr2
+    assert_in_delta r('cor(c(1, 2), c(4, 3), method = "spearman")').to_f, Alglib.spearman_corr2([1, 2], [4, 3]), DELTA
+    assert_in_delta r('cor(c(1, 2, 3), c(3, 5, 4), method = "spearman")').to_f,
+                    Alglib.spearman_corr2([1, 2, 3], [3, 5, 4]), DELTA
+    assert_in_delta r('cor(c(1.1, 2.2, 3.3, 4.4), c(3.3, 4.4, 5.5, 6.6), method = "spearman")').to_f,
+                    Alglib.spearman_corr2([1.1, 2.2, 3.3, 4.4], [3.3, 4.4, 5.5, 6.6]), DELTA
+  end
+
+  def test_spearman_corr2_random
+    5.times do
+      arr1 = Array.new(10) { rand(100) / 10.0 }
+      arr2 = Array.new(10) { rand(100) / 10.0 }
+      assert_in_delta r("cor(c(#{arr1.join(',')}), c(#{arr2.join(',')}), method = \"spearman\")").to_f,
+                      Alglib.spearman_corr2(arr1, arr2), DELTA
     end
   end
 end

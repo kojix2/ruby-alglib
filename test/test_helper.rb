@@ -10,9 +10,7 @@ def r(*code)
   cmd = "Rscript #{code.map { |c| "-e '#{c}'" }.join(' ')}"
 
   stdout, stderr, status = Open3.capture3(cmd)
-  unless status.success?
-    raise "Rscript failed: #{stderr}"
-  end
+  raise "Rscript failed: #{stderr}" unless status.success?
 
   # Rscript returns the result in the last line
   # Remove the prefix "[1]" and the space
