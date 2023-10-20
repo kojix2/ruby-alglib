@@ -3,18 +3,9 @@
 #include <algorithm>
 // #include "numo.hpp"
 #include "statistics.h"
+#include "alglib_utils.h"
 
 using namespace Rice;
-
-// Convert Ruby Array to real_1d_array
-alglib::real_1d_array to_real_1d_array(Array rubyArray)
-{
-    alglib::real_1d_array a;
-    a.setlength(rubyArray.size());
-    std::transform(rubyArray.begin(), rubyArray.end(), a.getcontent(), [](const Object &o)
-                   { return detail::From_Ruby<double>().convert(o.value()); });
-    return a;
-}
 
 // Check if two arrays are the same size
 void check_size(Array x, Array y)
