@@ -144,12 +144,14 @@ Hash perform_test(Func test, Args... args)
     return result;
 }
 
-Hash rb_pearsoncorrelationsignificance(double r, int n)
+// void pearsoncorrelationsignificance(const double r, const ae_int_t n, double &bothtails, double &lefttail, double &righttail, const xparams _xparams = alglib::xdefault);
+Hash rb_pearsoncorrelationsignificance(double r, alglib::ae_int_t n)
 {
     return perform_test(alglib::pearsoncorrelationsignificance, r, n);
 }
 
-Hash rb_spearmanrankcorrelationsignificance(double r, int n)
+// void spearmanrankcorrelationsignificance(const double r, const ae_int_t n, double &bothtails, double &lefttail, double &righttail, const xparams _xparams = alglib::xdefault);
+Hash rb_spearmanrankcorrelationsignificance(double r, alglib::ae_int_t n)
 {
     return perform_test(alglib::spearmanrankcorrelationsignificance, r, n);
 }
