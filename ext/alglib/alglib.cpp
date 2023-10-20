@@ -212,6 +212,14 @@ Hash rb_unequalvariancettest(Array x, Array y)
     return perform_test(alglib::unequalvariancettest, a, x.size(), b, y.size());
 }
 
+// specialfunctions.h
+
+// double gammafunction(const double x, const xparams _xparams = alglib::xdefault);
+double rb_gammafunction(double x)
+{
+    return alglib::gammafunction(x);
+}
+
 // alglibmisc.h
 
 double rb_hqrndnormal()
@@ -260,5 +268,6 @@ extern "C" void Init_alglib()
         .define_module_function("student_test_2", &rb_studentttest2)
         .define_module_function("unequal_variance_t_test", &rb_unequalvariancettest)
         .define_module_function("hqrnd_normal", &rb_hqrndnormal)
-        .define_module_function("hqrnd_normalv", &rb_hqrndnormalv);
+        .define_module_function("hqrnd_normalv", &rb_hqrndnormalv)
+        .define_module_function("gamma_function", &rb_gammafunction);
 }
