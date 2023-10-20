@@ -29,11 +29,11 @@ Not-To-Do List
 - Creating namespaces under Alglib. (e.g. Alglib::Statistics)
 - Trying to implement all functions even if you do not plan to use them.
 - Adding features that will require frequent maintenance.
-- Impose the above policy on forked repositories. 
+- Enforcing the above policies on forked repos.
 
 ## License
 
-- ruby-arglib itself is distributed under the **MIT** license.
+- ruby-alglib itself is distributed under the **MIT** license.
 - However, [ALGLIB Free Edition](https://www.alglib.net/download.php) is under the **GPL** or Personal/Academic license.
 - Please read [FAQ](https://www.alglib.net/faq.php) carefully before you use ALGLIB to understand what is allowed in the free version.
 - Theoretically, ruby-alglib should work with the commercial version. That is why it is MIT. But we have not verified this.
