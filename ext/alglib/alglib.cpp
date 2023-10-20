@@ -212,6 +212,29 @@ Hash rb_unequalvariancettest(Array x, Array y)
     return perform_test(alglib::unequalvariancettest, a, x.size(), b, y.size());
 }
 
+// alglibmisc.h
+
+double rb_hqrndnormal()
+{
+    alglib::hqrndstate state;
+    alglib::hqrndrandomize(state);
+    return alglib::hqrndnormal(state);
+}
+
+Array rb_hqrndnormalv(alglib::ae_int_t n)
+{
+    Array result = Array(rb_ary_new2(n));
+    alglib::hqrndstate state;
+    alglib::hqrndrandomize(state);
+    alglib::real_1d_array x;
+    alglib::hqrndnormalv(state, n, x);
+    for (alglib::ae_int_t i = 0; i < n; i++)
+    {
+        result.push(x[i]);
+    }
+    return result;
+}
+
 extern "C" void Init_alglib()
 {
     define_module("Alglib")
@@ -235,5 +258,7 @@ extern "C" void Init_alglib()
         .define_module_function("mann_whitney_u_test", &rb_mannwhitneyutest)
         .define_module_function("student_test_1", &rb_studentttest1)
         .define_module_function("student_test_2", &rb_studentttest2)
-        .define_module_function("unequal_variance_t_test", &rb_unequalvariancettest);
+        .define_module_function("unequal_variance_t_test", &rb_unequalvariancettest)
+        .define_module_function("hqrnd_normal", &rb_hqrndnormal)
+        .define_module_function("hqrnd_normalv", &rb_hqrndnormalv);
 }
