@@ -131,6 +131,25 @@ double rb_spearmancorr2(Array x, Array y)
 
 // void rankdatacentered(real_2d_array &xy, const ae_int_t npoints, const ae_int_t nfeatures, const xparams _xparams = alglib::xdefault);
 
+// double pearsoncorrelation(const real_1d_array &x, const real_1d_array &y, const ae_int_t n, const xparams _xparams = alglib::xdefault);
+
+double rb_pearsoncorrelation(Array x, Array y)
+{
+    check_size(x, y);
+    auto a = to_real_1d_array(x);
+    auto b = to_real_1d_array(y);
+    return alglib::pearsoncorrelation(a, b, x.size());
+}
+
+// double spearmanrankcorrelation(const real_1d_array &x, const real_1d_array &y, const ae_int_t n, const xparams _xparams = alglib::xdefault);
+double rb_spearmanrankcorrelation(Array x, Array y)
+{
+    check_size(x, y);
+    auto a = to_real_1d_array(x);
+    auto b = to_real_1d_array(y);
+    return alglib::spearmanrankcorrelation(a, b, x.size());
+}
+
 // Helper function to generic statistical tests
 template <typename Func, typename... Args>
 Hash perform_test(Func test, Args... args)
@@ -449,6 +468,8 @@ extern "C" void Init_alglib()
         .define_module_function("cov2", &rb_cov2)
         .define_module_function("pearson_corr2", &rb_pearsoncorr2)
         .define_module_function("spearman_corr2", &rb_spearmancorr2)
+        .define_module_function("pearson_correlation", &rb_pearsoncorrelation)
+        .define_module_function("spearman_rank_correlation", &rb_spearmanrankcorrelation)
         .define_module_function("pearson_correlation_significance", &rb_pearsoncorrelationsignificance)
         .define_module_function("spearman_rank_correlation_significance", &rb_spearmanrankcorrelationsignificance)
         .define_module_function("jarque_bera_test", &rb_jarqueberatest)
