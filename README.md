@@ -1,5 +1,7 @@
 # ruby-alglib
 
+[![test](https://github.com/kojix2/ruby-alglib/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/ruby-alglib/actions/workflows/ci.yml)
+
 - `statistics.h` of [ALGLIB](https://www.alglib.net/) for Ruby.
 - ALGLIB is a numerical analysis and data processing library. This repository provides bindings primarily for statistics.
 
