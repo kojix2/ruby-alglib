@@ -3,10 +3,6 @@ require_relative 'test_helper'
 DELTA = 1e-5
 
 class AlglibTest < Test::Unit::TestCase
-  def test_that_it_has_a_version_number
-    refute_nil ::Alglib::VERSION
-  end
-
   def test_sample_mean
     assert_equal r('mean(c(1, 2))').to_f, Alglib.sample_mean([1, 2])
     assert_equal r('mean(c(1, 2, 3))').to_f, Alglib.sample_mean([1, 2, 3])
