@@ -40,6 +40,11 @@ class AlglibDataAnalysisTest < Test::Unit::TestCase
     assert_in_delta expected_s2[1], result['s2'][1], DELTA
     assert_in_delta expected_s2[2], result['s2'][2], DELTA
 
+    assert_equal 3, result['v'].size
+    assert_equal 3, result['v'][0].size
+    assert_equal 3, result['v'][1].size
+    assert_equal 3, result['v'][2].size
+    actual_v_sort5 = result['v'].flatten.map(&:abs).sort.reverse.take(6)
     assert_in_delta expected_v_sort5[0], actual_v_sort5[0], DELTA
     assert_in_delta expected_v_sort5[1], actual_v_sort5[1], DELTA
     assert_in_delta expected_v_sort5[2], actual_v_sort5[2], DELTA
