@@ -437,7 +437,14 @@ Array rb_hqrndnormalv(alglib::ae_int_t n)
 
 extern "C" void Init_alglib()
 {
-    define_module("Alglib")
+    Module rb_mAlglib = define_module("Alglib");
+
+    // Data_Type<alglib::hqrndstate> rb_cHqRndState =
+    //     define_class_under<alglib::hqrndstate>(rb_mAlglib, "HqRndState")
+    //     .define_constructor(Constructor<alglib::hqrndstate>())
+    //     .define_method("initialize_copy", &alglib::hqrndstate::operator=);
+
+    rb_mAlglib
         .define_module_function("sample_moments", &rb_samplemoments)
         .define_module_function("sample_mean", &rb_samplemean)
         .define_module_function("sample_variance", &rb_samplevariance)
