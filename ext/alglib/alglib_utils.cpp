@@ -1,4 +1,4 @@
-#include "alglib_utils.hpp"
+#include "alglib_utils.h"
 
 // Check if two arrays are the same size
 void check_size(Array x, Array y)

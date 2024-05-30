@@ -4,8 +4,8 @@
 // #include "numo.hpp"
 #include "dataanalysis.h"
 #include "statistics.h"
-#include "alglib_array_converters.hpp"
-#include "alglib_utils.hpp"
+#include "alglib_array_converters.h"
+#include "alglib_utils.h"
 
 using namespace Rice;
 

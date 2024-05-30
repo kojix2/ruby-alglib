@@ -18,6 +18,15 @@ class AlglibDataAnalysisTest < Test::Unit::TestCase
       v_r <- pca$rotation
       sort(abs(as.vector(v_r)), decreasing = TRUE)[1:6]
     R
+
+    # Why [1:6]?
+    # Because otherwise, the results would span multiple lines.
+    # [1] 0.8164966 0.7071068 0.7071068 0.5773503 0.5773503 0.5773503 0.4082483
+    # [8] 0.4082483 0.0000000
+
+    # Why take the absolute value and sort?
+    # Because the direction of eigenvectors is arbitrary.
+
     expected_v_sort5 = v_sort5.split.map(&:to_f)
 
     result = Alglib.pca_build_basis(
@@ -31,8 +40,6 @@ class AlglibDataAnalysisTest < Test::Unit::TestCase
     assert_in_delta expected_s2[1], result['s2'][1], DELTA
     assert_in_delta expected_s2[2], result['s2'][2], DELTA
 
-    p expected_v_sort5
-    p actual_v_sort5 = result['v'].flatten.map(&:abs).sort.reverse[0..5]
     assert_in_delta expected_v_sort5[0], actual_v_sort5[0], DELTA
     assert_in_delta expected_v_sort5[1], actual_v_sort5[1], DELTA
     assert_in_delta expected_v_sort5[2], actual_v_sort5[2], DELTA
