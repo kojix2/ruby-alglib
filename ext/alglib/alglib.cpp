@@ -2,11 +2,30 @@
 #include <rice/stl.hpp>
 #include <algorithm>
 // #include "numo.hpp"
+#include "dataanalysis.h"
 #include "statistics.h"
 #include "alglib_array_converters.hpp"
 #include "alglib_utils.hpp"
 
 using namespace Rice;
+
+// pca subpackage
+
+// void pcabuildbasis(const real_2d_array &x, real_1d_array &s2, real_2d_array &v, const xparams _xparams = alglib::xdefault);
+Hash rb_pcabuildbasis(Array x)
+{
+    Hash result;
+    int rows, cols;
+    auto a = ruby_array_to_real_2d_array(x, rows, cols);
+    alglib::real_1d_array s2;
+    alglib::real_2d_array v;
+    alglib::pcabuildbasis(a, s2, v, alglib::xdefault);
+    result["s2"] = real_1d_array_to_ruby_array(s2);
+    result["v"] = real_2d_array_to_ruby_array(v);
+    return result;
+}
+
+// statistics package
 
 // void samplemoments(const real_1d_array &x, const ae_int_t n, double &mean, double &variance, double &skewness, double &kurtosis, const xparams _xparams = alglib::xdefault);
 Hash rb_samplemoments(Array x)
@@ -435,6 +454,9 @@ extern "C" void Init_alglib()
     //     define_class_under<alglib::hqrndstate>(rb_mAlglib, "HqRndState")
     //     .define_constructor(Constructor<alglib::hqrndstate>())
     //     .define_method("initialize_copy", &alglib::hqrndstate::operator=);
+
+    rb_mAlglib
+        .define_module_function("pca_build_basis", &rb_pcabuildbasis);
 
     rb_mAlglib
         .define_module_function("sample_moments", &rb_samplemoments)
