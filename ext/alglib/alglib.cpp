@@ -3,18 +3,10 @@
 #include <algorithm>
 // #include "numo.hpp"
 #include "statistics.h"
-#include "alg_array_converters.hpp"
+#include "alglib_array_converters.hpp"
+#include "alglib_utils.hpp"
 
 using namespace Rice;
-
-// Check if two arrays are the same size
-void check_size(Array x, Array y)
-{
-    if (x.size() != y.size())
-    {
-        throw std::invalid_argument("x and y must be the same size");
-    }
-}
 
 // void samplemoments(const real_1d_array &x, const ae_int_t n, double &mean, double &variance, double &skewness, double &kurtosis, const xparams _xparams = alglib::xdefault);
 Hash rb_samplemoments(Array x)
