@@ -14,5 +14,7 @@
 *.lock
 mkmf.log
 
+/.vscode/
+
 /ext/alglib/*.cpp
 /ext/alglib/*.h
