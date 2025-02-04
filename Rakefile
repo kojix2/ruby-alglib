@@ -7,6 +7,13 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList['test/**/*_test.rb']
 end
 
+desc 'Clean up ext/alglib and restore original files'
+namespace :ext do
+  task :clean_alglib do
+    sh 'rm -rf ext/alglib/* && git checkout ext/alglib'
+  end
+end
+
 require 'rake/extensiontask'
 
 task build: :compile
