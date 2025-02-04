@@ -36,4 +36,29 @@ class AlglibArrayConvertersTest < Test::Unit::TestCase
       Alglib.ruby_array_to_real_2d_array(ruby_array)
     end
   end
+
+  def test_large_array
+    ruby_array = Array.new(1000) { |i| i.to_f }
+    alglib_array = Alglib.ruby_array_to_real_1d_array(ruby_array)
+    assert_equal(ruby_array, Alglib.real_1d_array_to_ruby_array(alglib_array))
+  end
+
+  def test_array_with_negative_numbers
+    ruby_array = [-1.0, -2.0, 0.0, 3.0]
+    alglib_array = Alglib.ruby_array_to_real_1d_array(ruby_array)
+    assert_equal(ruby_array, Alglib.real_1d_array_to_ruby_array(alglib_array))
+  end
+
+  def test_array_with_non_numeric_values
+    ruby_array = [1.0, 'a', 3.0]
+    assert_raise(TypeError) do
+      Alglib.ruby_array_to_real_1d_array(ruby_array)
+    end
+  end
+
+  def test_single_element_array
+    ruby_array = [42.0]
+    alglib_array = Alglib.ruby_array_to_real_1d_array(ruby_array)
+    assert_equal(ruby_array, Alglib.real_1d_array_to_ruby_array(alglib_array))
+  end
 end
