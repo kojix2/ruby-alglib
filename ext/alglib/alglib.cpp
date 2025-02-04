@@ -455,7 +455,28 @@ extern "C" void Init_alglib()
     //     .define_constructor(Constructor<alglib::hqrndstate>())
     //     .define_method("initialize_copy", &alglib::hqrndstate::operator=);
 
+    Data_Type<alglib::real_1d_array> rb_cReal1DArray =
+        define_class_under<alglib::real_1d_array>(rb_mAlglib, "Real1DArray")
+        .define_constructor(Constructor<alglib::real_1d_array>())
+        .define_method("getcontent", static_cast<double* (alglib::real_1d_array::*)()>(&alglib::real_1d_array::getcontent));
+
+    Data_Type<alglib::integer_1d_array> rb_cInteger1DArray =
+        define_class_under<alglib::integer_1d_array>(rb_mAlglib, "Integer1DArray")
+        .define_constructor(Constructor<alglib::integer_1d_array>())
+        .define_method("getcontent", static_cast<alglib::ae_int_t* (alglib::integer_1d_array::*)()>(&alglib::integer_1d_array::getcontent));
+
+    Data_Type<alglib::real_2d_array> rb_cReal2DArray =
+        define_class_under<alglib::real_2d_array>(rb_mAlglib, "Real2DArray")
+        .define_constructor(Constructor<alglib::real_2d_array>())
+        .define_method("getcontent", static_cast<double* (alglib::real_2d_array::*)(alglib::ae_int_t)>(&alglib::real_2d_array::operator[]));
+
     rb_mAlglib
+        .define_module_function("ruby_array_to_real_1d_array", &ruby_array_to_real_1d_array)
+        .define_module_function("ruby_array_to_integer_1d_array", &ruby_array_to_integer_1d_array)
+        .define_module_function("ruby_array_to_real_2d_array", &ruby_array_to_real_2d_array)
+        .define_module_function("real_1d_array_to_ruby_array", &real_1d_array_to_ruby_array)
+        .define_module_function("real_2d_array_to_ruby_array", &real_2d_array_to_ruby_array)
+        .define_module_function("integer_1d_array_to_ruby_array", &integer_1d_array_to_ruby_array)
         .define_module_function("pca_build_basis", &rb_pcabuildbasis);
 
     rb_mAlglib

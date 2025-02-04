@@ -11,6 +11,26 @@ alglib::real_1d_array ruby_array_to_real_1d_array(Array ruby_array)
     return real_array;
 }
 
+Array real_1d_array_to_ruby_array(const alglib::real_1d_array &arr)
+{
+    Array ruby_array;
+    for (int i = 0; i < arr.length(); ++i)
+    {
+        ruby_array.push(arr[i]);
+    }
+    return ruby_array;
+}
+
+Array integer_1d_array_to_ruby_array(const alglib::integer_1d_array &arr)
+{
+    Array ruby_array;
+    for (int i = 0; i < arr.length(); ++i)
+    {
+        ruby_array.push(arr[i]);
+    }
+    return ruby_array;
+}
+
 // Convert Ruby Array to integer_1d_array
 alglib::integer_1d_array ruby_array_to_integer_1d_array(Array ruby_array)
 {
