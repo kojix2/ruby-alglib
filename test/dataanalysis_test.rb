@@ -1,7 +1,5 @@
 require_relative 'test_helper'
 
-DELTA = 1e-5
-
 class AlglibDataAnalysisTest < Test::Unit::TestCase
   def test_sample_mean
     s2 = r(<<~R)

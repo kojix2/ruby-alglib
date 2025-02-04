@@ -1,7 +1,5 @@
 require_relative 'test_helper'
 
-DELTA = 1e-5
-
 class AlglibStatisticsTest < Test::Unit::TestCase
   def test_sample_mean
     assert_equal r('mean(c(1, 2))').to_f, Alglib.sample_mean([1, 2])

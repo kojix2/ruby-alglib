@@ -5,6 +5,8 @@ require 'alglib'
 require 'open3'
 require 'test-unit'
 
+DELTA = 1e-5
+
 # Run code in Rscript
 def r(*code)
   cmd = "Rscript #{code.map { |c| "-e '#{c}'" }.join(' ')}"
