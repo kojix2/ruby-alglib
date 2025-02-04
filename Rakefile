@@ -20,7 +20,7 @@ namespace :ext do
   task :alglib do
     require 'open-uri'
     require 'zip'
-    source_url = 'https://www.alglib.net/translator/re/alglib-4.01.0.cpp.gpl.zip'
+    source_url = 'https://www.alglib.net/translator/re/alglib-4.04.0.cpp.gpl.zip'
     target_dir = './ext/alglib'
 
     # Download the file to a temporary location
