@@ -37,6 +37,27 @@ Not-To-Do List
 - Adding features that will require frequent maintenance.
 - Enforcing the above policies on forked repos.
 
+Ruby Gem Release
+
+1. Update the version number in `lib/alglib/version.rb`.
+2. Clean up the extension files:
+
+```sh
+rake ext:clean_alglib
+```
+
+3. Download the ALGLIB Free Edition:
+
+```sh
+rake ext:alglib
+```
+
+4. Publish the `alglib4` gem:
+
+```sh
+rake release
+```
+
 ## License
 
 - ruby-alglib itself is distributed under the **MIT** license.
