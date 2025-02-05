@@ -1,0 +1,13 @@
+root = true
+
+[*]
+indent_style = space
+
+[*.rb]
+indent_size = 2
+
+[*.cpp]
+indent_size = 4
+
+[*.h]
+indent_size = 4
