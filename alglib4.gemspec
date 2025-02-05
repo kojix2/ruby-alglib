@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/kojix2/ruby-alglib'
   spec.license       = 'MIT'
 
-  spec.files         = Dir['{ext,vendor}/**/*', 'lib/**/*.rb', 'LICENSE.txt', 'README.md']
+  spec.files         = Dir['{ext,vendor}/**/*', 'lib/**/*.rb', '*.txt', 'README.md']
   spec.require_paths = ['lib']
   spec.extensions    = ['ext/alglib/extconf.rb']
 

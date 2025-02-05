@@ -18,3 +18,5 @@ mkmf.log
 
 /ext/alglib/*.cpp
 /ext/alglib/*.h
+gpl2.txt
+gpl3.txt
