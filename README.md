@@ -40,7 +40,7 @@ Not-To-Do List
 ## License
 
 - ruby-alglib itself is distributed under the **MIT** license.
-- However, [ALGLIB Free Edition](https://www.alglib.net/download.php) is under the **GPL** or Personal/Academic license.
+- However, [ALGLIB for C++ Free Edition](https://www.alglib.net/download.php) is under the **GPL 2+** license.
 - Please read [FAQ](https://www.alglib.net/faq.php) carefully before you use ALGLIB to understand what is allowed in the free version.
   - [Can I use ALGLIB Free Edition in a commercial application which runs on server?](https://www.alglib.net/faq.php#6bca163136cda10b16de68704cbea625)
     > You can, but there is at least one reason to buy commercial license. Everything is OK while it is just running on your server. But any action connected with distribution - selling, sublicensing, transferring to someone under nondisclosure agreement - will trigger copyleft clause. So it is safer and more convenient to buy commercial license.
