@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'ALGLIB for Ruby'
   spec.description   = 'ALGLIB wrapper for Ruby'
   spec.homepage      = 'https://github.com/kojix2/ruby-alglib'
-  spec.licensese     = ['MIT', 'GPL-2.0', 'GPL-3.0']
+  spec.licenses      = ['MIT', 'GPL-2.0', 'GPL-3.0']
 
   spec.files         = Dir['{ext,vendor}/**/*', 'lib/**/*.rb', '*.txt', 'README.md']
   spec.require_paths = ['lib']

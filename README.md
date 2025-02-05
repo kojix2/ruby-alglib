@@ -13,12 +13,12 @@ From source code:
 git clone https://github.com/kojix2/ruby-alglib
 cd ruby-alglib
 bundle install
-rake ext:alglib # Download ALGLIB Free Editon from https://www.alglib.net/ and extract to ext/alglib.
+rake ext:alglib # Download ALGLIB Free Edition from https://www.alglib.net/ and extract to ext/alglib.
 rake compile
 rake install
 ```
 
-- Note that the license of ALGLIB Free Editon is GPL or Personal/Academic license.
+- Note that the license of ALGLIB Free Edition is GPL or Personal/Academic license.
 - If you want to use ALGLIB in a commercial application, you will need to purchase a commercial license.
   - [Can I use ALGLIB Free Edition in a commercial application which runs on server?](https://www.alglib.net/faq.php#6bca163136cda10b16de68704cbea625)
 - You can also use the Commercial Edition of ALGLIB. In that case, you need to replace the files in `ext/alglib` with the files in the Commercial Edition.
