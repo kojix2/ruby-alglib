@@ -59,6 +59,10 @@ rake ext:alglib
 rake release
 ```
 
+### Call for committers and owners
+
+This project is looking for a committer and an owner. The original developer, kojix2, is not familiar with the C++ programming language or mathematical calculations. If there is a suitable owner, kojix2 will gladly transfer this project (provided that kojix2 can maintain commit rights).
+
 ## License
 
 - ruby-alglib itself (the code in this repository) is distributed under the **MIT** license.
