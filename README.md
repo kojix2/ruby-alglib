@@ -3,7 +3,7 @@
 [![test](https://github.com/kojix2/ruby-alglib/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/ruby-alglib/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/alglib4.svg)](https://badge.fury.io/rb/alglib4)
 
-- `statistics.h` of [ALGLIB](https://www.alglib.net/) for Ruby.
+- [ALGLIB](https://www.alglib.net/) for Ruby.
 - ALGLIB is a numerical analysis and data processing library. This repository provides bindings primarily for statistics.
 
 ## Installation
@@ -31,14 +31,18 @@ rake install
 
 ## Development
 
-Not-To-Do List
+### Not-To-Do List
 
 - Creating namespaces under Alglib. (e.g. Alglib::Statistics)
 - Trying to implement all functions even if you do not plan to use them.
 - Adding features that will require frequent maintenance.
 - Enforcing the above policies on forked repos.
 
-Ruby Gem Release
+### Rice - C++ binding
+
+We use [Rice](https://github.com/ruby-rice/rice) to create Ruby's C++ binding.
+
+### Ruby Gem Release
 
 1. Update the version number in `lib/alglib/version.rb`.
 2. Clean up the extension files:
