@@ -48,9 +48,9 @@ namespace :ext do
         when '.cpp', '.h'
           FileUtils.mkdir_p File.dirname(path_to_extract)
           entry.extract(path_to_extract) { true }
-	when '.txt' # LICENCE gpl2.txt gpl3.txt
-	  entry.extract(File.basename(entry.name)){ true }
-	end
+        when '.txt' # LICENCE gpl2.txt gpl3.txt
+          entry.extract(File.basename(entry.name)) { true }
+        end
       end
     end
 
