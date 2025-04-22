@@ -1,4 +1,4 @@
-#include "alglib_array_converters.h"
+#include "alglib_converters.h"
 
 alglib::real_1d_array ruby_array_to_real_1d_array(Array ruby_array)
 {
