@@ -28,6 +28,24 @@ class AlglibArrayConvertersTest < Test::Unit::TestCase
     assert_equal(ruby_array, Alglib.real_1d_array_to_ruby_array(alglib_array))
   end
 
+  def test_ruby_array_to_integer_2d_array
+    ruby_array = [[1, 2], [3, 4]]
+    alglib_array = Alglib.ruby_array_to_integer_2d_array(ruby_array)
+    assert_equal(ruby_array, Alglib.integer_2d_array_to_ruby_array(alglib_array))
+  end
+
+  def test_empty_integer_2d_array
+    ruby_array = []
+    alglib_array = Alglib.ruby_array_to_integer_2d_array(ruby_array)
+    assert_equal(ruby_array, Alglib.integer_2d_array_to_ruby_array(alglib_array))
+  end
+
+  def test_single_element_integer_2d_array
+    ruby_array = [[42]]
+    alglib_array = Alglib.ruby_array_to_integer_2d_array(ruby_array)
+    assert_equal(ruby_array, Alglib.integer_2d_array_to_ruby_array(alglib_array))
+  end
+
   def test_inconsistent_row_sizes
     ruby_array = [[1.0, 2.0], [3.0]]
     assert_raise(ArgumentError) do

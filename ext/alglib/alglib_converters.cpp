@@ -30,10 +30,22 @@ alglib::real_2d_array ruby_array_to_real_2d_array(Array ruby_array)
     return ruby_array_to_alglib_2d_array<alglib::real_2d_array, double>(ruby_array);
 }
 
+alglib::integer_2d_array ruby_array_to_integer_2d_array(Array ruby_array)
+{
+    // Call the template function for integer_2d_array and int
+    return ruby_array_to_alglib_2d_array<alglib::integer_2d_array, int>(ruby_array);
+}
+
 Array real_2d_array_to_ruby_array(const alglib::real_2d_array &real_array)
 {
     // Call the template function for real_2d_array
     return alglib_2d_array_to_ruby_array<alglib::real_2d_array>(real_array);
+}
+
+Array integer_2d_array_to_ruby_array(const alglib::integer_2d_array &arr)
+{
+    // Call the template function for integer_2d_array
+    return alglib_2d_array_to_ruby_array<alglib::integer_2d_array>(arr);
 }
 
 /**
@@ -82,7 +94,10 @@ Alglib2DArray ruby_array_to_alglib_2d_array(Array ruby_array)
 {
     if (ruby_array.size() == 0)
     {
-        throw std::invalid_argument("ruby_array_to_alglib_2d_array: Input array is empty");
+        // Return an empty ALGLIB 2D array (0x0)
+        Alglib2DArray result;
+        result.setlength(0, 0);
+        return result;
     }
     int rows = ruby_array.size();
     Array first_row;
