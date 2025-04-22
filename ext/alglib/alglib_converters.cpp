@@ -46,7 +46,16 @@ AlglibArray ruby_array_to_alglib_1d_array(Array ruby_array)
     result.setlength(ruby_array.size());
     for (size_t i = 0; i < ruby_array.size(); ++i)
     {
-        result[i] = Rice::detail::From_Ruby<CType>().convert(ruby_array[i].value());
+        try
+        {
+            result[i] = Rice::detail::From_Ruby<CType>().convert(ruby_array[i].value());
+        }
+        catch (const std::exception &e)
+        {
+            throw std::invalid_argument(
+                "ruby_array_to_alglib_1d_array: Element " + std::to_string(i) +
+                " conversion failed: " + e.what());
+        }
     }
     return result;
 }
@@ -73,24 +82,56 @@ Alglib2DArray ruby_array_to_alglib_2d_array(Array ruby_array)
 {
     if (ruby_array.size() == 0)
     {
-        throw std::invalid_argument("Input array is empty");
+        throw std::invalid_argument("ruby_array_to_alglib_2d_array: Input array is empty");
     }
     int rows = ruby_array.size();
-    int cols = Rice::detail::From_Ruby<Array>().convert(ruby_array.call("first")).size();
+    Array first_row;
+    try
+    {
+        first_row = Rice::detail::From_Ruby<Array>().convert(ruby_array.call("first"));
+    }
+    catch (const std::exception &e)
+    {
+        throw std::invalid_argument("ruby_array_to_alglib_2d_array: First row is not an Array: " + std::string(e.what()));
+    }
+    int cols = first_row.size();
 
     Alglib2DArray result;
     result.setlength(rows, cols);
 
     for (int i = 0; i < rows; ++i)
     {
-        Array row = Rice::detail::From_Ruby<Array>().convert(ruby_array[i].value());
+        Array row;
+        try
+        {
+            row = Rice::detail::From_Ruby<Array>().convert(ruby_array[i].value());
+        }
+        catch (const std::exception &e)
+        {
+            throw std::invalid_argument(
+                "ruby_array_to_alglib_2d_array: Row " + std::to_string(i) +
+                " is not an Array: " + e.what());
+        }
         if (row.size() != cols)
         {
-            throw std::invalid_argument("All rows must have the same size");
+            throw std::invalid_argument(
+                "ruby_array_to_alglib_2d_array: Row " + std::to_string(i) +
+                " size mismatch: expected " + std::to_string(cols) +
+                ", got " + std::to_string(row.size()));
         }
         for (int j = 0; j < cols; ++j)
         {
-            result[i][j] = Rice::detail::From_Ruby<CType>().convert(row[j].value());
+            try
+            {
+                result[i][j] = Rice::detail::From_Ruby<CType>().convert(row[j].value());
+            }
+            catch (const std::exception &e)
+            {
+                throw std::invalid_argument(
+                    "ruby_array_to_alglib_2d_array: Element (" +
+                    std::to_string(i) + "," + std::to_string(j) +
+                    ") conversion failed: " + e.what());
+            }
         }
     }
     return result;

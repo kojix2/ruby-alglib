@@ -49,7 +49,7 @@ class AlglibArrayConvertersTest < Test::Unit::TestCase
 
   def test_array_with_non_numeric_values
     ruby_array = [1.0, 'a', 3.0]
-    assert_raise(TypeError) do
+    assert_raise(ArgumentError) do
       Alglib.ruby_array_to_real_1d_array(ruby_array)
     end
   end
