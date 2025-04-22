@@ -2,44 +2,26 @@
 
 alglib::real_1d_array ruby_array_to_real_1d_array(Array ruby_array)
 {
-    alglib::real_1d_array real_array;
-    real_array.setlength(ruby_array.size());
-    for (size_t i = 0; i < ruby_array.size(); i++)
-    {
-        real_array[i] = detail::From_Ruby<double>().convert(ruby_array[i].value());
-    }
-    return real_array;
+    // Call the template function for real_1d_array and double
+    return ruby_array_to_alglib_1d_array<alglib::real_1d_array, double>(ruby_array);
 }
 
 alglib::integer_1d_array ruby_array_to_integer_1d_array(Array ruby_array)
 {
-    alglib::integer_1d_array integer_array;
-    integer_array.setlength(ruby_array.size());
-    for (size_t i = 0; i < ruby_array.size(); i++)
-    {
-        integer_array[i] = detail::From_Ruby<int>().convert(ruby_array[i].value());
-    }
-    return integer_array;
+    // Call the template function for integer_1d_array and int
+    return ruby_array_to_alglib_1d_array<alglib::integer_1d_array, int>(ruby_array);
 }
 
 Array real_1d_array_to_ruby_array(const alglib::real_1d_array &arr)
 {
-    Array ruby_array;
-    for (int i = 0; i < arr.length(); ++i)
-    {
-        ruby_array.push(arr[i]);
-    }
-    return ruby_array;
+    // Call the template function for real_1d_array
+    return alglib_1d_array_to_ruby_array<alglib::real_1d_array>(arr);
 }
 
 Array integer_1d_array_to_ruby_array(const alglib::integer_1d_array &arr)
 {
-    Array ruby_array;
-    for (int i = 0; i < arr.length(); ++i)
-    {
-        ruby_array.push(arr[i]);
-    }
-    return ruby_array;
+    // Call the template function for integer_1d_array
+    return alglib_1d_array_to_ruby_array<alglib::integer_1d_array>(arr);
 }
 
 alglib::real_2d_array ruby_array_to_real_2d_array(Array ruby_array)
@@ -84,3 +66,38 @@ Array real_2d_array_to_ruby_array(const alglib::real_2d_array &real_array)
     }
     return result;
 }
+
+/**
+ * @brief Template implementation: Convert a Ruby Array to an ALGLIB 1D array.
+ */
+template <typename AlglibArray, typename CType>
+AlglibArray ruby_array_to_alglib_1d_array(Array ruby_array)
+{
+    AlglibArray result;
+    result.setlength(ruby_array.size());
+    for (size_t i = 0; i < ruby_array.size(); ++i)
+    {
+        result[i] = Rice::detail::From_Ruby<CType>().convert(ruby_array[i].value());
+    }
+    return result;
+}
+
+/**
+ * @brief Template implementation: Convert an ALGLIB 1D array to a Ruby Array.
+ */
+template <typename AlglibArray>
+Array alglib_1d_array_to_ruby_array(const AlglibArray &arr)
+{
+    Array ruby_array;
+    for (int i = 0; i < arr.length(); ++i)
+    {
+        ruby_array.push(arr[i]);
+    }
+    return ruby_array;
+}
+
+// Explicit instantiations for real_1d_array and integer_1d_array
+template alglib::real_1d_array ruby_array_to_alglib_1d_array<alglib::real_1d_array, double>(Array);
+template alglib::integer_1d_array ruby_array_to_alglib_1d_array<alglib::integer_1d_array, int>(Array);
+template Array alglib_1d_array_to_ruby_array<alglib::real_1d_array>(const alglib::real_1d_array &);
+template Array alglib_1d_array_to_ruby_array<alglib::integer_1d_array>(const alglib::integer_1d_array &);
