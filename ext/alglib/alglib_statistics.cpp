@@ -1,6 +1,6 @@
 #include "alglib_statistics.h"
 
-// void samplemoments(const real_1d_array &x, const ae_int_t n, double &mean, double &variance, double &skewness, double &kurtosis, const xparams _xparams = alglib::xdefault);
+// 1D array statistical functions
 Hash rb_samplemoments(Array x)
 {
     Hash result;
@@ -17,35 +17,30 @@ Hash rb_samplemoments(Array x)
     return result;
 }
 
-// double samplemean(const real_1d_array &x, const ae_int_t n, const xparams _xparams = alglib::xdefault);
 double rb_samplemean(Array x)
 {
     auto a = ruby_array_to_real_1d_array(x);
     return alglib::samplemean(a, x.size());
 }
 
-// double samplevariance(const real_1d_array &x, const ae_int_t n, const xparams _xparams = alglib::xdefault);
 double rb_samplevariance(Array x)
 {
     auto a = ruby_array_to_real_1d_array(x);
     return alglib::samplevariance(a, x.size());
 }
 
-// double sampleskewness(const real_1d_array &x, const ae_int_t n, const xparams _xparams = alglib::xdefault);
 double rb_sampleskewness(Array x)
 {
     auto a = ruby_array_to_real_1d_array(x);
     return alglib::sampleskewness(a, x.size());
 }
 
-// double samplekurtosis(const real_1d_array &x, const ae_int_t n, const xparams _xparams = alglib::xdefault);
 double rb_samplekurtosis(Array x)
 {
     auto a = ruby_array_to_real_1d_array(x);
     return alglib::samplekurtosis(a, x.size());
 }
 
-// void sampleadev(const real_1d_array &x, const ae_int_t n, double &adev, const xparams _xparams = alglib::xdefault);
 double rb_sampleadev(Array x)
 {
     auto a = ruby_array_to_real_1d_array(x);
@@ -54,7 +49,6 @@ double rb_sampleadev(Array x)
     return adev;
 }
 
-// void samplemedian(const real_1d_array &x, const ae_int_t n, double &median, const xparams _xparams = alglib::xdefault);
 double rb_samplemedian(Array x)
 {
     auto a = ruby_array_to_real_1d_array(x);
@@ -63,7 +57,6 @@ double rb_samplemedian(Array x)
     return median;
 }
 
-// void samplepercentile(const real_1d_array &x, const ae_int_t n, const double p, double &v, const xparams _xparams = alglib::xdefault);
 double rb_samplepercentile(Array x, double p)
 {
     auto a = ruby_array_to_real_1d_array(x);
@@ -72,7 +65,6 @@ double rb_samplepercentile(Array x, double p)
     return v;
 }
 
-// double cov2(const real_1d_array &x, const real_1d_array &y, const ae_int_t n, const xparams _xparams = alglib::xdefault);
 double rb_cov2(Array x, Array y)
 {
     check_size(x, y);
@@ -81,7 +73,6 @@ double rb_cov2(Array x, Array y)
     return alglib::cov2(a, b, x.size());
 }
 
-// double pearsoncorr2(const real_1d_array &x, const real_1d_array &y, const ae_int_t n, const xparams _xparams = alglib::xdefault);
 double rb_pearsoncorr2(Array x, Array y)
 {
     check_size(x, y);
@@ -90,7 +81,6 @@ double rb_pearsoncorr2(Array x, Array y)
     return alglib::pearsoncorr2(a, b, x.size());
 }
 
-// double spearmancorr2(const real_1d_array &x, const real_1d_array &y, const ae_int_t n, const xparams _xparams = alglib::xdefault);
 double rb_spearmancorr2(Array x, Array y)
 {
     check_size(x, y);
@@ -99,21 +89,174 @@ double rb_spearmancorr2(Array x, Array y)
     return alglib::spearmancorr2(a, b, x.size());
 }
 
-// void covm(const real_2d_array &x, const ae_int_t n, const ae_int_t m, real_2d_array &c, const xparams _xparams = alglib::xdefault);
+// 2D array/matrix statistical functions
 
-// void pearsoncorrm(const real_2d_array &x, const ae_int_t n, const ae_int_t m, real_2d_array &c, const xparams _xparams = alglib::xdefault);
+// Covariance matrix
+Array rb_covm(Array x)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    int n = a.rows();
+    int m = a.cols();
+    alglib::real_2d_array c;
+    c.setlength(m, m);
+    alglib::covm(a, n, m, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
 
-// void spearmancorrm(const real_2d_array &x, const ae_int_t n, const ae_int_t m, real_2d_array &c, const xparams _xparams = alglib::xdefault);
+Array rb_covm_with_size(Array x, int n, int m)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    alglib::real_2d_array c;
+    c.setlength(m, m);
+    alglib::covm(a, n, m, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
 
-// void covm2(const real_2d_array &x, const real_2d_array &y, const ae_int_t n, const ae_int_t m1, const ae_int_t m2, real_2d_array &c, const xparams _xparams = alglib::xdefault);
+// Pearson correlation matrix
+Array rb_pearsoncorrm(Array x)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    int n = a.rows();
+    int m = a.cols();
+    alglib::real_2d_array c;
+    c.setlength(m, m);
+    alglib::pearsoncorrm(a, n, m, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
 
-// void pearsoncorrm2(const real_2d_array &x, const real_2d_array &y, const ae_int_t n, const ae_int_t m1, const ae_int_t m2, real_2d_array &c, const xparams _xparams = alglib::xdefault);
+Array rb_pearsoncorrm_with_size(Array x, int n, int m)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    alglib::real_2d_array c;
+    c.setlength(m, m);
+    alglib::pearsoncorrm(a, n, m, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
 
-// void spearmancorrm2(const real_2d_array &x, const real_2d_array &y, const ae_int_t n, const ae_int_t m1, const ae_int_t m2, real_2d_array &c, const xparams _xparams = alglib::xdefault);
+// Spearman correlation matrix
+Array rb_spearmancorrm(Array x)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    int n = a.rows();
+    int m = a.cols();
+    alglib::real_2d_array c;
+    c.setlength(m, m);
+    alglib::spearmancorrm(a, n, m, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
 
-// void rankdata(real_2d_array &xy, const ae_int_t npoints, const ae_int_t nfeatures, const xparams _xparams = alglib::xdefault);
+Array rb_spearmancorrm_with_size(Array x, int n, int m)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    alglib::real_2d_array c;
+    c.setlength(m, m);
+    alglib::spearmancorrm(a, n, m, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
 
-// void rankdatacentered(real_2d_array &xy, const ae_int_t npoints, const ae_int_t nfeatures, const xparams _xparams = alglib::xdefault);
+// Cross-covariance matrix
+Array rb_covm2(Array x, Array y)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    auto b = ruby_array_to_real_2d_array(y);
+    int n = a.rows();
+    int m1 = a.cols();
+    int m2 = b.cols();
+    alglib::real_2d_array c;
+    c.setlength(m1, m2);
+    alglib::covm2(a, b, n, m1, m2, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
+
+Array rb_covm2_with_size(Array x, Array y, int n, int m1, int m2)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    auto b = ruby_array_to_real_2d_array(y);
+    alglib::real_2d_array c;
+    c.setlength(m1, m2);
+    alglib::covm2(a, b, n, m1, m2, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
+
+// Pearson cross-correlation matrix
+Array rb_pearsoncorrm2(Array x, Array y)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    auto b = ruby_array_to_real_2d_array(y);
+    int n = a.rows();
+    int m1 = a.cols();
+    int m2 = b.cols();
+    alglib::real_2d_array c;
+    c.setlength(m1, m2);
+    alglib::pearsoncorrm2(a, b, n, m1, m2, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
+
+Array rb_pearsoncorrm2_with_size(Array x, Array y, int n, int m1, int m2)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    auto b = ruby_array_to_real_2d_array(y);
+    alglib::real_2d_array c;
+    c.setlength(m1, m2);
+    alglib::pearsoncorrm2(a, b, n, m1, m2, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
+
+// Spearman cross-correlation matrix
+Array rb_spearmancorrm2(Array x, Array y)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    auto b = ruby_array_to_real_2d_array(y);
+    int n = a.rows();
+    int m1 = a.cols();
+    int m2 = b.cols();
+    alglib::real_2d_array c;
+    c.setlength(m1, m2);
+    alglib::spearmancorrm2(a, b, n, m1, m2, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
+
+Array rb_spearmancorrm2_with_size(Array x, Array y, int n, int m1, int m2)
+{
+    auto a = ruby_array_to_real_2d_array(x);
+    auto b = ruby_array_to_real_2d_array(y);
+    alglib::real_2d_array c;
+    c.setlength(m1, m2);
+    alglib::spearmancorrm2(a, b, n, m1, m2, c, alglib::xdefault);
+    return real_2d_array_to_ruby_array(c);
+}
+
+Array rb_rankdata(Array xy)
+{
+    auto a = ruby_array_to_real_2d_array(xy);
+    int npoints = a.rows();
+    int nfeatures = a.cols();
+    alglib::rankdata(a, npoints, nfeatures, alglib::xdefault);
+    return real_2d_array_to_ruby_array(a);
+}
+
+Array rb_rankdata_with_size(Array xy, int npoints, int nfeatures)
+{
+    auto a = ruby_array_to_real_2d_array(xy);
+    alglib::rankdata(a, npoints, nfeatures, alglib::xdefault);
+    return real_2d_array_to_ruby_array(a);
+}
+
+Array rb_rankdatacentered(Array xy)
+{
+    auto a = ruby_array_to_real_2d_array(xy);
+    int npoints = a.rows();
+    int nfeatures = a.cols();
+    alglib::rankdatacentered(a, npoints, nfeatures, alglib::xdefault);
+    return real_2d_array_to_ruby_array(a);
+}
+
+Array rb_rankdatacentered_with_size(Array xy, int npoints, int nfeatures)
+{
+    auto a = ruby_array_to_real_2d_array(xy);
+    alglib::rankdatacentered(a, npoints, nfeatures, alglib::xdefault);
+    return real_2d_array_to_ruby_array(a);
+}
 
 // Helper function to generic statistical tests
 template <typename Func, typename... Args>
@@ -128,13 +271,11 @@ Hash perform_test(Func test, Args... args)
     return result;
 }
 
-// void pearsoncorrelationsignificance(const double r, const ae_int_t n, double &bothtails, double &lefttail, double &righttail, const xparams _xparams = alglib::xdefault);
 Hash rb_pearsoncorrelationsignificance(double r, alglib::ae_int_t n)
 {
     return perform_test(alglib::pearsoncorrelationsignificance, r, n);
 }
 
-// void spearmanrankcorrelationsignificance(const double r, const ae_int_t n, double &bothtails, double &lefttail, double &righttail, const xparams _xparams = alglib::xdefault);
 Hash rb_spearmanrankcorrelationsignificance(double r, alglib::ae_int_t n)
 {
     return perform_test(alglib::spearmanrankcorrelationsignificance, r, n);

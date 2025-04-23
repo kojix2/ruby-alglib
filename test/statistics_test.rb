@@ -140,4 +140,155 @@ class AlglibStatisticsTest < Test::Unit::TestCase
                       Alglib.spearman_corr2(arr1, arr2), DELTA
     end
   end
+
+  # --- 2D array/matrix statistical functions ---
+
+  def test_covm
+    mat = [[1, 2], [3, 4], [5, 6]]
+    r_cov = r('cov(matrix(c(1,3,5,2,4,6), ncol=2))')
+    alglib_cov = Alglib.covm(mat)
+    assert_in_delta r_cov[0][0].to_f, alglib_cov[0][0], DELTA
+    assert_in_delta r_cov[0][1].to_f, alglib_cov[0][1], DELTA
+    assert_in_delta r_cov[1][0].to_f, alglib_cov[1][0], DELTA
+    assert_in_delta r_cov[1][1].to_f, alglib_cov[1][1], DELTA
+
+    # with_size version
+    alglib_cov2 = Alglib.covm_with_size(mat, 3, 2)
+    assert_in_delta r_cov[0][0].to_f, alglib_cov2[0][0], DELTA
+    assert_in_delta r_cov[0][1].to_f, alglib_cov2[0][1], DELTA
+    assert_in_delta r_cov[1][0].to_f, alglib_cov2[1][0], DELTA
+    assert_in_delta r_cov[1][1].to_f, alglib_cov2[1][1], DELTA
+  end
+
+  def test_pearsoncorrm
+    mat = [[1, 2], [3, 4], [5, 6]]
+    r_cor = r('cor(matrix(c(1,3,5,2,4,6), ncol=2))')
+    alglib_cor = Alglib.pearsoncorrm(mat)
+    assert_in_delta r_cor[0][0].to_f, alglib_cor[0][0], DELTA
+    assert_in_delta r_cor[0][1].to_f, alglib_cor[0][1], DELTA
+    assert_in_delta r_cor[1][0].to_f, alglib_cor[1][0], DELTA
+    assert_in_delta r_cor[1][1].to_f, alglib_cor[1][1], DELTA
+
+    # with_size version
+    alglib_cor2 = Alglib.pearsoncorrm_with_size(mat, 3, 2)
+    assert_in_delta r_cor[0][0].to_f, alglib_cor2[0][0], DELTA
+    assert_in_delta r_cor[0][1].to_f, alglib_cor2[0][1], DELTA
+    assert_in_delta r_cor[1][0].to_f, alglib_cor2[1][0], DELTA
+    assert_in_delta r_cor[1][1].to_f, alglib_cor2[1][1], DELTA
+  end
+
+  def test_spearmancorrm
+    mat = [[1, 2], [3, 4], [5, 6]]
+    r_cor = r('cor(matrix(c(1,3,5,2,4,6), ncol=2), method="spearman")')
+    alglib_cor = Alglib.spearmancorrm(mat)
+    assert_in_delta r_cor[0][0].to_f, alglib_cor[0][0], DELTA
+    assert_in_delta r_cor[0][1].to_f, alglib_cor[0][1], DELTA
+    assert_in_delta r_cor[1][0].to_f, alglib_cor[1][0], DELTA
+    assert_in_delta r_cor[1][1].to_f, alglib_cor[1][1], DELTA
+
+    # with_size version
+    alglib_cor2 = Alglib.spearmancorrm_with_size(mat, 3, 2)
+    assert_in_delta r_cor[0][0].to_f, alglib_cor2[0][0], DELTA
+    assert_in_delta r_cor[0][1].to_f, alglib_cor2[0][1], DELTA
+    assert_in_delta r_cor[1][0].to_f, alglib_cor2[1][0], DELTA
+    assert_in_delta r_cor[1][1].to_f, alglib_cor2[1][1], DELTA
+  end
+
+  def test_covm2
+    x = [[1, 2], [3, 4], [5, 6]]
+    y = [[7, 8], [9, 10], [11, 12]]
+    r_cov = r('cov(matrix(c(1,3,5,2,4,6), ncol=2), matrix(c(7,9,11,8,10,12), ncol=2))')
+    alglib_cov = Alglib.covm2(x, y)
+    2.times do |i|
+      2.times do |j|
+        assert_in_delta r_cov[i][j].to_f, alglib_cov[i][j], DELTA
+      end
+    end
+
+    # with_size version
+    alglib_cov2 = Alglib.covm2_with_size(x, y, 3, 2, 2)
+    2.times do |i|
+      2.times do |j|
+        assert_in_delta r_cov[i][j].to_f, alglib_cov2[i][j], DELTA
+      end
+    end
+  end
+
+  def test_pearsoncorrm2
+    x = [[1, 2], [3, 4], [5, 6]]
+    y = [[7, 8], [9, 10], [11, 12]]
+    r_cor = r('cor(matrix(c(1,3,5,2,4,6), ncol=2), matrix(c(7,9,11,8,10,12), ncol=2))')
+    alglib_cor = Alglib.pearsoncorrm2(x, y)
+    2.times do |i|
+      2.times do |j|
+        assert_in_delta r_cor[i][j].to_f, alglib_cor[i][j], DELTA
+      end
+    end
+
+    # with_size version
+    alglib_cor2 = Alglib.pearsoncorrm2_with_size(x, y, 3, 2, 2)
+    2.times do |i|
+      2.times do |j|
+        assert_in_delta r_cor[i][j].to_f, alglib_cor2[i][j], DELTA
+      end
+    end
+  end
+
+  def test_spearmancorrm2
+    x = [[1, 2], [3, 4], [5, 6]]
+    y = [[7, 8], [9, 10], [11, 12]]
+    r_cor = r('cor(matrix(c(1,3,5,2,4,6), ncol=2), matrix(c(7,9,11,8,10,12), ncol=2), method="spearman")')
+    alglib_cor = Alglib.spearmancorrm2(x, y)
+    2.times do |i|
+      2.times do |j|
+        assert_in_delta r_cor[i][j].to_f, alglib_cor[i][j], DELTA
+      end
+    end
+
+    # with_size version
+    alglib_cor2 = Alglib.spearmancorrm2_with_size(x, y, 3, 2, 2)
+    2.times do |i|
+      2.times do |j|
+        assert_in_delta r_cor[i][j].to_f, alglib_cor2[i][j], DELTA
+      end
+    end
+  end
+
+  def test_rankdata
+    mat = [[10, 20, 30], [30, 10, 20]]
+    r_rank = r('t(apply(matrix(c(10,30,20,20,10,30), nrow=2, byrow=TRUE), 1, rank))')
+    # Adjust R's 1-based rank to 0-based for ALGLIB
+    r_rank = r_rank.map { |row| row.map { |v| v.to_f - 1 } }
+    alglib_mat = Alglib.rankdata(mat)
+    2.times do |i|
+      assert_equal r_rank[i].sort, alglib_mat[i].sort
+    end
+
+    # with_size version
+    alglib_mat2 = Alglib.rankdata_with_size(mat, 2, 3)
+    2.times do |i|
+      assert_equal r_rank[i].sort, alglib_mat2[i].sort
+    end
+  end
+
+  def test_rankdatacentered
+    mat = [[10, 20, 30], [30, 10, 20]]
+    r_rank_raw = r('t(apply(matrix(c(10,30,20,20,10,30), nrow=2, byrow=TRUE), 1, rank))')
+    # Adjust R's 1-based rank to 0-based, then center
+    r_rank = r_rank_raw.map do |row|
+      row = row.map { |v| v.to_f - 1 }
+      mean = row.sum / row.size
+      row.map { |v| v - mean }
+    end
+    alglib_mat = Alglib.rankdatacentered(mat)
+    2.times do |i|
+      assert_equal r_rank[i].sort, alglib_mat[i].sort
+    end
+
+    # with_size version
+    alglib_mat2 = Alglib.rankdatacentered_with_size(mat, 2, 3)
+    2.times do |i|
+      assert_equal r_rank[i].sort, alglib_mat2[i].sort
+    end
+  end
 end

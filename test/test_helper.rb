@@ -16,7 +16,7 @@ def r(*code)
     f.flush
 
     stdout, stderr, status = Open3.capture3("Rscript #{f.path}")
-    if ENV["DEBUG_R"]
+    if ENV['DEBUG_R']
       puts "Rscript file: #{f.path}"
       puts "Rscript code:\n#{File.read(f.path)}"
       puts "Rscript stdout:\n#{stdout}"
@@ -44,6 +44,7 @@ def r(*code)
       # Scalar/vector output: just parse as float if possible
       val = lines.last
       return nil if val.nil? || val.strip.empty?
+
       val = val.sub(/^\[\d+\]\s+/, '')
       begin
         Float(val)
