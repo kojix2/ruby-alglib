@@ -30,6 +30,7 @@ rake install
 ### Supported Statistical Functions
 
 #### Special Functions (from alglib_specialfunctions.h)
+
 - `gamma_function`
 - `lngamma`
 - `error_function`
@@ -64,13 +65,16 @@ rake install
 - `beta`
 
 #### Data Analysis Functions (from alglib_dataanalysis.h)
+
 - `pca_build_basis`
 
 #### Miscellaneous Functions (from alglib_alglibmisc.h)
+
 - `hqrnd_normal`
 - `hqrnd_normalv`
 
 #### 1D Array Functions
+
 - `sample_moments`
 - `sample_mean`
 - `sample_variance`
@@ -84,6 +88,7 @@ rake install
 - `spearman_corr2`
 
 #### 2D Array / Matrix Functions
+
 - `covm`, `covm_with_size`
 - `pearsoncorrm`, `pearsoncorrm_with_size`
 - `spearmancorrm`, `spearmancorrm_with_size`
@@ -94,6 +99,7 @@ rake install
 - `rankdatacentered`, `rankdatacentered_with_size`
 
 #### Statistical Tests
+
 - `pearson_correlation_significance`
 - `spearman_rank_correlation_significance`
 - `jarque_bera_test`
