@@ -4,19 +4,54 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'alglib'
 require 'open3'
 require 'test-unit'
+require 'tempfile'
 
 DELTA = 1e-5
 
-# Run code in Rscript
+# Run code in Rscript via a temporary file for robust quoting
 def r(*code)
-  cmd = "Rscript #{code.map { |c| "-e '#{c}'" }.join(' ')}"
+  Tempfile.create(['rscript', '.R']) do |f|
+    # Write all code lines to the temp file
+    code.each { |line| f.puts(line) }
+    f.flush
 
-  stdout, stderr, status = Open3.capture3(cmd)
-  raise "Rscript failed: #{stderr}" unless status.success?
+    stdout, stderr, status = Open3.capture3("Rscript #{f.path}")
+    if ENV["DEBUG_R"]
+      puts "Rscript file: #{f.path}"
+      puts "Rscript code:\n#{File.read(f.path)}"
+      puts "Rscript stdout:\n#{stdout}"
+      puts "Rscript stderr:\n#{stderr}"
+    end
+    raise "Rscript failed: #{stderr}" unless status.success?
 
-  # Rscript returns the result in the last line
-  # Remove the prefix "[1]" and the space
-  stdout.split("\n").last.sub(/^\[\d+\]\s+/, '')
+    lines = stdout.split("\n")
+    # Remove only empty lines
+    lines.reject! { |l| l.strip.empty? }
+
+    # If the output looks like a matrix, parse it
+    if lines.size > 1 && lines[0] =~ /^\s*\[.*,.*\]/
+      # Remove header line
+      lines.shift
+      matrix = lines.map do |line|
+        # Remove row label ([1,], [2,], etc)
+        line = line.sub(/^\s*\[\d+,\]\s*/, '')
+        # Split by whitespace and convert to float
+        line.strip.split(/\s+/).map { |v| v.to_f }
+      end
+      matrix.map! { |row| row.flatten }
+      matrix
+    else
+      # Scalar/vector output: just parse as float if possible
+      val = lines.last
+      return nil if val.nil? || val.strip.empty?
+      val = val.sub(/^\[\d+\]\s+/, '')
+      begin
+        Float(val)
+      rescue ArgumentError
+        val
+      end
+    end
+  end
 end
 
 # install packages
