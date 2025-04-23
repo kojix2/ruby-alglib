@@ -89,14 +89,14 @@ rake install
 
 #### 2D Array / Matrix Functions
 
-- `covm`, `covm_with_size`
-- `pearsoncorrm`, `pearsoncorrm_with_size`
-- `spearmancorrm`, `spearmancorrm_with_size`
-- `covm2`, `covm2_with_size`
-- `pearsoncorrm2`, `pearsoncorrm2_with_size`
-- `spearmancorrm2`, `spearmancorrm2_with_size`
-- `rankdata`, `rankdata_with_size`
-- `rankdatacentered`, `rankdatacentered_with_size`
+- `cov_matrix`, `cov_matrix_with_size`
+- `pearson_corr_matrix`, `pearson_corr_matrix_with_size`
+- `spearman_corr_matrix`, `spearman_corr_matrix_with_size`
+- `cov_matrix2`, `cov_matrix2_with_size`
+- `pearson_corr_matrix2`, `pearson_corr_matrix2_with_size`
+- `spearman_corr_matrix2`, `spearman_corr_matrix2_with_size`
+- `rank_data`, `rank_data_with_size`
+- `rank_data_centered`, `rank_data_centered_with_size`
 
 #### Statistical Tests
 
@@ -124,13 +124,13 @@ moments = Alglib.sample_moments(arr) # => { "mean" => ..., "variance" => ..., ..
 
 # 2D statistics
 mat = [[1, 2], [3, 4], [5, 6]]
-cov = Alglib.covm(mat)
-corr = Alglib.pearsoncorrm(mat)
-ranked = Alglib.rankdata(mat)
-centered_ranked = Alglib.rankdatacentered(mat)
+cov = Alglib.cov_matrix(mat)
+corr = Alglib.pearson_corr_matrix(mat)
+ranked = Alglib.rank_data(mat)
+centered_ranked = Alglib.rank_data_centered(mat)
 
 # with_size version
-cov2 = Alglib.covm_with_size(mat, 3, 2)
+cov2 = Alglib.cov_matrix_with_size(mat, 3, 2)
 
 # Statistical test
 result = Alglib.pearson_correlation_significance(0.8, 10) # => { "bothtails" => ..., ... }
