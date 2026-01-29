@@ -1,5 +1,11 @@
 require 'bundler/gem_tasks'
+require 'fileutils'
+require 'net/http'
+require 'openssl'
 require 'rake/testtask'
+require 'tempfile'
+require 'uri'
+require 'zip'
 
 Rake::TestTask.new(:test) do |t|
   t.libs << 'test'
@@ -22,39 +28,65 @@ Rake::ExtensionTask.new('alglib') do |ext|
   ext.lib_dir = 'lib/alglib'
 end
 
+def download_alglib_archive(source_url)
+  uri = URI.parse(source_url)
+  response = fetch_alglib_response(uri)
+
+  temp_file = Tempfile.new('alglib')
+  temp_file.write(response.body)
+  temp_file.flush
+  temp_file
+end
+
+def fetch_alglib_response(uri)
+  response = Net::HTTP.start(
+    uri.host,
+    uri.port,
+    use_ssl: uri.scheme == 'https',
+    verify_mode: OpenSSL::SSL::VERIFY_PEER
+  ) { |http| http.get(uri.request_uri) }
+  raise "Download failed: #{response.code} #{response.message}" unless response.is_a?(Net::HTTPSuccess)
+
+  response
+end
+
+def extract_alglib_archive(temp_file, target_dir)
+  Zip::File.open(temp_file.path) do |zip_file|
+    zip_file.each do |entry|
+      # Skip test files
+      next if entry.name.start_with?('alglib-cpp/tests')
+
+      extract_alglib_entry(entry, target_dir)
+    end
+  end
+end
+
+def extract_alglib_entry(entry, target_dir)
+  extension = File.extname(entry.name)
+  return unless %w[.cpp .h .txt].include?(extension)
+
+  path_to_extract = File.join(target_dir, File.basename(entry.name))
+  if extension == '.txt' # LICENCE gpl2.txt gpl3.txt
+    entry.extract(File.basename(entry.name)) { true }
+    return
+  end
+
+  FileUtils.mkdir_p File.dirname(path_to_extract)
+  entry.extract(path_to_extract) { true }
+end
+
 desc 'Download and extract ALGLIB'
 namespace :ext do
   task :alglib do
-    require 'open-uri'
-    require 'zip'
     source_url = 'https://www.alglib.net/translator/re/alglib-4.05.0.cpp.gpl.zip'
     target_dir = './ext/alglib'
 
-    # Download the file to a temporary location
-    temp_file = Tempfile.new('alglib')
-    URI.open(source_url) do |src|
-      temp_file.write(src.read)
-      temp_file.flush
+    temp_file = download_alglib_archive(source_url)
+    begin
+      extract_alglib_archive(temp_file, target_dir)
+    ensure
+      temp_file.close
+      temp_file.unlink
     end
-
-    # Extract downloaded file to target directory
-    Zip::File.open(temp_file.path) do |zip_file|
-      zip_file.each do |entry|
-        # Skip test files
-        next if entry.name.start_with?('alglib-cpp/tests')
-
-        path_to_extract = File.join(target_dir, File.basename(entry.name))
-        case File.extname(entry.name)
-        when '.cpp', '.h'
-          FileUtils.mkdir_p File.dirname(path_to_extract)
-          entry.extract(path_to_extract) { true }
-        when '.txt' # LICENCE gpl2.txt gpl3.txt
-          entry.extract(File.basename(entry.name)) { true }
-        end
-      end
-    end
-
-    temp_file.close
-    temp_file.unlink
   end
 end

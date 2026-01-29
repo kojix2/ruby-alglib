@@ -36,9 +36,9 @@ def r(*code)
         # Remove row label ([1,], [2,], etc)
         line = line.sub(/^\s*\[\d+,\]\s*/, '')
         # Split by whitespace and convert to float
-        line.strip.split(/\s+/).map { |v| v.to_f }
+        line.strip.split(/\s+/).map(&:to_f)
       end
-      matrix.map! { |row| row.flatten }
+      matrix.map!(&:flatten)
       matrix
     else
       # Scalar/vector output: just parse as float if possible
