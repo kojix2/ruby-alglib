@@ -28,14 +28,21 @@ Rake::ExtensionTask.new('alglib') do |ext|
   ext.lib_dir = 'lib/alglib'
 end
 
-def download_alglib_archive(source_url)
+def fetch_alglib_archive(source_url)
+  archive_path = alglib_cache_path(source_url)
+  return archive_path if File.exist?(archive_path)
+
   uri = URI.parse(source_url)
   response = fetch_alglib_response(uri)
 
-  temp_file = Tempfile.new('alglib')
-  temp_file.write(response.body)
-  temp_file.flush
-  temp_file
+  FileUtils.mkdir_p File.dirname(archive_path)
+  File.open(archive_path, 'wb') { |file| file.write(response.body) }
+  archive_path
+end
+
+def alglib_cache_path(source_url)
+  cache_dir = ENV.fetch('ALGLIB_CACHE_DIR', File.expand_path('.cache/alglib', __dir__))
+  File.join(cache_dir, File.basename(source_url))
 end
 
 def fetch_alglib_response(uri)
@@ -50,8 +57,8 @@ def fetch_alglib_response(uri)
   response
 end
 
-def extract_alglib_archive(temp_file, target_dir)
-  Zip::File.open(temp_file.path) do |zip_file|
+def extract_alglib_archive(archive_path, target_dir)
+  Zip::File.open(archive_path) do |zip_file|
     zip_file.each do |entry|
       # Skip test files
       next if entry.name.start_with?('alglib-cpp/tests')
@@ -81,12 +88,7 @@ namespace :ext do
     source_url = 'https://www.alglib.net/translator/re/alglib-4.07.0.cpp.gpl.zip'
     target_dir = './ext/alglib'
 
-    temp_file = download_alglib_archive(source_url)
-    begin
-      extract_alglib_archive(temp_file, target_dir)
-    ensure
-      temp_file.close
-      temp_file.unlink
-    end
+    archive_path = fetch_alglib_archive(source_url)
+    extract_alglib_archive(archive_path, target_dir)
   end
 end
