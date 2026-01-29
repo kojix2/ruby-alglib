@@ -78,7 +78,7 @@ end
 desc 'Download and extract ALGLIB'
 namespace :ext do
   task :alglib do
-    source_url = 'https://www.alglib.net/translator/re/alglib-4.05.0.cpp.gpl.zip'
+    source_url = 'https://www.alglib.net/translator/re/alglib-4.07.0.cpp.gpl.zip'
     target_dir = './ext/alglib'
 
     temp_file = download_alglib_archive(source_url)
