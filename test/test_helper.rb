@@ -54,8 +54,3 @@ def r(*code)
     end
   end
 end
-
-# install packages
-# backquote is used to show the stderr
-`Rscript -e 'if (!requireNamespace("e1071")) install.packages("e1071", repos = "https://cran.rstudio.com/")'`
-`Rscript -e 'if (!requireNamespace("DescTools")) install.packages("DescTools", repos = "https://cran.rstudio.com/")'`

@@ -24,6 +24,11 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
       - if: matrix.os == 'ubuntu'
         run: sudo apt-get update && sudo apt-get install libcurl4-gnutls-dev
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::e1071
+            any::DescTools
       - run: bundle exec rake ext:alglib
       - run: bundle exec rake compile
       - run: bundle exec rake test
