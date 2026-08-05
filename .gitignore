@@ -22,3 +22,6 @@ mkmf.log
 !ext/alglib/alglib_converters.h
 gpl2.txt
 gpl3.txt
+
+/.cache/
+/ext/alglib/Makefile
